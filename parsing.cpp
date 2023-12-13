@@ -1,6 +1,6 @@
-#include "header.hpp"
+#include "parser.hpp"
 
-std::string findMethod(std::string header)
+std::string removeWhiteSpaces(std::string header)
 {
 	size_t posStart = 0;
 	size_t posEnd = header.size() - 1;
@@ -9,7 +9,7 @@ std::string findMethod(std::string header)
 	while (posEnd > posStart && isspace(header[posEnd]))
 		posEnd--;
 	header = header.substr(posStart, posEnd - posStart + 1);
-	std::cout << header << std::endl;
+	// std::cout << header << std::endl;
 	return header;
 }
 
@@ -36,7 +36,16 @@ void handleRequest(int clientSocket)
 		if (header.find("\r\n\r\n") != std::string::npos || header.find("\n\n") != std::string::npos)
 			break;
 	}
-	std::string method = findMethod(header);
+	header = removeWhiteSpaces(header);
+	std::string method = header.substr(0, header.find(" "));
+	if (method == "GET")
+		std::cout << header << std::endl;
+	else if (method == "POST")
+		std::cout << header << std::endl;
+	else if (method == "DELETE")
+		std::cout << header << std::endl;
+	else
+		throw std::runtime_error("Error! Invalid method.");
 
 	// Send a simple response
     std::string response = "HTTP/1.1 200 OK\r\nContent-Length: 12\r\n\r\nHello, World!";
