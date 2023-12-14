@@ -1,18 +1,5 @@
 #include "parser.hpp"
 
-std::string removeWhiteSpaces(std::string header)
-{
-	size_t posStart = 0;
-	size_t posEnd = header.size() - 1;
-	while (posStart < posEnd && isspace(header[posStart]))
-		posStart++;
-	while (posEnd > posStart && isspace(header[posEnd]))
-		posEnd--;
-	header = header.substr(posStart, posEnd - posStart + 1);
-	// std::cout << header << std::endl;
-	return header;
-}
-
 void handleRequest(int clientSocket)
 {
 	// ssize_t recv(int socket, void *buffer, size_t length, int flags);
